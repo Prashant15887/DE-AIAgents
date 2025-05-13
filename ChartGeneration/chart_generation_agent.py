@@ -6,7 +6,6 @@ os.environ["OPENAI_API_KEY"] = ""
 
 # DuckDB Loader Example
 from langchain_community.document_loaders import DuckDBLoader
-
 # Build the Chart Generation Agent
 from typing_extensions import TypedDict
 # from langchain_core.stores import InMemoryStore

@@ -1,9 +1,9 @@
 # Chart Generation Agent with DuckDB
 
 import os
-os.environ["LANGCHAIN_API_KEY"] = "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"
+os.environ["LANGCHAIN_API_KEY"] = ""
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = ""
 
 # DuckDB Loader Example
 from langchain_community.document_loaders import DuckDBLoader

@@ -1,5 +1,4 @@
 # Chart Generation Agent with DuckDB
-
 import os
 os.environ["LANGCHAIN_API_KEY"] = ""
 os.environ["LANGCHAIN_TRACING_V2"] = "true"

@@ -1,14 +1,12 @@
 # SQL Generation Agent with DuckDB
 import os
 import getpass
-
 os.environ["LANGCHAIN_API_KEY"] = ""
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ["OPENAI_API_KEY"] = ""
 
 # DuckDB Loader Example
 from langchain_community.document_loaders import DuckDBLoader
-
 file_path = "data/netflix_titles.csv"
 loader = DuckDBLoader(f"SELECT * FROM read_csv_auto('{file_path}') LIMIT 10")
 data = loader.load()
@@ -17,7 +15,6 @@ print(data)
 
 # Build the SQL Generation Agent
 from typing_extensions import TypedDict
-
 class State(TypedDict):
     question: str
     query: str
@@ -41,7 +38,6 @@ query_prompt_template.messages[0].pretty_print()
 
 # Define Write Query
 from typing_extensions import Annotated
-
 class QueryOutput(TypedDict):
     """Generated SQL query."""
     query: Annotated[str, ..., "Syntactically valid SQL query."]
@@ -97,33 +93,27 @@ def generate_answer(state: State):
     return {"answer": response.content}
 
 from langgraph.graph import START, StateGraph
-
 graph_builder = StateGraph(State).add_sequence(
     [write_query, execute_query, generate_answer]
 )
-
 graph_builder.add_edge(START, "write_query")
 graph = graph_builder.compile()
 
 from IPython.display import Image, display
-
 display(Image(graph.get_graph().draw_mermaid_png()))
 
 for step in graph.stream(
     {"question": "Can you get the total shows per director, and sort by total shows in descending order for the top 3 director?"}, stream_mode="updates"
 ):
     print(step)
-
 for step in graph.stream(
     {"question": "Can you get number of shows start with letter D?"}, stream_mode="updates"
 ):
     print(step)
-
 for step in graph.stream(
     {"question": "Can you get number of shows start with letter D?"}, stream_mode="updates"
 ):
     print(step)
-
 for step in graph.stream(
     {"question": "Can you get the how many years between each show director Rajiv Chilaka produced, sort by release years?"}, stream_mode="updates"
 ):
